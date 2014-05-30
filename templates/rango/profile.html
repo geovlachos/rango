@@ -1,0 +1,24 @@
+{% extends "rango/base.html" %}
+{% block title %}Profile{% endblock %}
+{% block body_block %}
+<div class="hero-unit">
+    <h1> Profile <h1> <br/>
+    <h2>{{ user.username }}</h2>
+    {% if user %}
+        <p>Email: {{ user.email }}<br />
+        First name: {{ user.first_name }}<br />
+        Last name: {{ user.last_name }}</br>
+        Date joined: {{ user.date_joined }}</p>
+    {% endif %}
+
+    {% if userprofile %}
+        <p>Website: <a href="{{ userprofile.website }}">{{ userprofile.website }}</a></p>
+        <br/>
+        {% if userprofile.picture %}
+            <img src="{{ userprofile.picture.url }}"  />
+        {% endif %}
+    {% else %}
+        <p>No user profile found.</p>
+    {% endif %}
+</div>
+{% endblock %}

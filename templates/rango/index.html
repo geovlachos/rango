@@ -1,0 +1,64 @@
+{% extends 'rango/base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block body_block %}
+<div class="hero-unit">
+    <h1>Rango says...</h1>
+    <p>Find, Add, Share and Rango useful links and resources.</p>
+</div>
+
+<div class="row-fluid">
+    <div class="span6">
+        <h3>Top Five Categories</h3>
+        {% if categories %}
+        Look at those categories:
+        <ul>
+            {% for category in categories %}
+            <li>
+                <a href="/rango/category/{{ category.url }}">{{ category.name }}</a>
+                {% if category.likes > 1 %}
+                    ({{ category.likes }} likes)
+                {% elif category.likes == 1 %}
+                    ({{ category.likes }} like)
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <strong>No categories at present.</strong>
+        {% endif %}
+
+    </div>
+    <!--/span-->
+    <div class="span6">
+            <h3>Top Five Pages</h3>
+            {% if pages %}
+            The most visited pages:
+            <ul>
+                {% for page in pages %}
+                <li>
+                    <a href="/rango/goto/?page_id={{page.id}}" target="_blank">{{ page.title }}</a>
+                    - {{ page.category }}
+                    {% if page.views > 1 %}
+                        ({{ page.views }} views)
+                    {% elif page.views == 1 %}
+                        ({{ page.views }} view)
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+                {% if boldmessage %}
+                    {% if user.is_authenticated %}
+                        <p>are fantastic! <strong>{{ boldmessage }}</strong> {{ user.username }}</p>
+                    {% else %}
+                        <p>are fantastic! <strong>{{ boldmessage }}</strong> stranger</p>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+            <strong>No pages at present.</strong>
+            {% endif %}
+
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+{% endblock %}
