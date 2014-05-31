@@ -137,7 +137,8 @@ def register(request):
     return render(request, 'rango/register.html',
                   {'user_form': user_form,
                    'profile_form': profile_form,
-                   'registered': registered}
+                   'registered': registered,
+                   'cat_list': get_category_list()}
                  )
 
 
@@ -157,7 +158,8 @@ def user_login(request):
             return render(request, 'rango/login.html',
                           {'bad_details': True})
     else:
-        return render(request, 'rango/login.html', {})
+        return render(request, 'rango/login.html',
+                      {'cat_list': get_category_list()})
 
 
 @login_required
@@ -222,3 +224,11 @@ def suggest_category(request):
     cat_list = get_category_list(8, starts_with)
 
     return render(request, 'rango/category_list.html', {'cat_list': cat_list })
+
+
+def profile_edit(request, profile_id):
+    try:
+        user = User.objects.get(id=profile_id)
+    except User.DoesNotExist:
+        return HttpResponse('ERROR edit profile. No user with id: %s' % profile_id)
+    return HttpResponse('edit profile %s' % user.username)

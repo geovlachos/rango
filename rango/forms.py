@@ -49,6 +49,13 @@ class UserForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'username',
                   'password', 'password2', 'email', 'email2']
 
+    def clean_username(self):
+        try:
+             User.objects.get(username=self.data['username'])
+        except User.DoesNotExist:
+            return self.data['username']
+        raise forms.ValidationError('The username is already taken.')
+
     def clean_password(self):
         if self.data['password'] != self.data['password2']:
             raise forms.ValidationError('Passwords are not the same.')
@@ -61,6 +68,7 @@ class UserForm(forms.ModelForm):
                                             
     def clean(self):
         cleaned_data = self.cleaned_data
+        self.clean_username()
         self.clean_password()
         self.clean_email()
         return cleaned_data
