@@ -150,7 +150,10 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/rango/')
+                if request.POST.get('next') != '':
+                    return HttpResponseRedirect(request.POST.get('next'))
+                else:
+                    return HttpResponseRedirect('/rango/')
             else:
                 return render(request, 'rango/login.html',
                               {'disabled_account': True})

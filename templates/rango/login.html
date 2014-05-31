@@ -9,6 +9,8 @@
         <h2 class="form-signin-heading">Please sign in</h2>
         {% csrf_token %}
 
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+
         {% if bad_details %}
         <p><strong>Your username and/or password were incorrect!</strong></p>
         {% elif disabled_account %}
@@ -21,7 +23,6 @@
         <br />
         <button class="btn btn-primary" type="submit">Sign in</button>
     </form>
-
     </div>
     <!-- /container -->
 </div>
