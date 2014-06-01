@@ -83,3 +83,25 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['website', 'picture']
+
+
+class UserFormUpdate(forms.ModelForm):
+    email = forms.CharField(help_text="Please enter your email.")
+    email2 = forms.CharField(help_text="Repeat your email.")
+    first_name = forms.CharField(help_text="Please enter your first name.")
+    last_name = forms.CharField(help_text="Please enter your last name.")
+
+    class Meta:
+        model = User
+        exclude = ('username', 'password',)
+        fields = ['first_name', 'last_name', 'email', 'email2']
+
+    def clean_email(self):
+        if self.data['email'] != self.data['email2']:
+            raise forms.ValidationError('Emails are not the same.')
+        return self.data['email']
+                                            
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        self.clean_email()
+        return cleaned_data

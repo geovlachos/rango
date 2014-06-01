@@ -1,0 +1,36 @@
+{% extends 'rango/base.html' %}
+{% block title %}Profile update{% endblock %}
+{% block body_block %}
+<div class="hero-unit">
+    <h1>Profile update</h1> <br />
+
+    <div class="container">
+        <form class="form-signin span8" id="user_form" method="post" action="/rango/profile/update/"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2 class="form-signin-heading">'{{ user.username }}' update your info here</h2>
+            <!-- Display each form here -->
+
+            {% for field in user_form.visible_fields %}
+            {% if field.errors %}
+            <span class="errorlist">{{ field.errors.as_text }}</span>
+            {% endif %}
+            {{ field.help_text }}<br />
+            {{ field }}<br />
+            {% endfor %}
+
+            {% for field in profile_form.visible_fields %}
+            {% if field.errors %}
+            <span class="errorlist">{{ field.errors.as_text }}</span>
+            {% endif %}
+            {{ field.help_text }}<br />
+            {{ field }}<br />
+            {% endfor %}
+
+            <br />
+            <!-- Provide a button to click to submit the form. -->
+            <input class="btn btn-primary" type="submit" name="submit" value="Update"/>
+        </form>
+    </div>
+</div>
+{% endblock %}

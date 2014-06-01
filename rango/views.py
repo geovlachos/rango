@@ -6,7 +6,7 @@ from rango.models import Category
 from rango.models import Page
 from rango.models import UserProfile
 from rango.forms import CategoryForm, PageForm
-from rango.forms import UserForm, UserProfileForm
+from rango.forms import UserForm, UserProfileForm, UserFormUpdate
 from django.contrib.auth.models import User
 
 
@@ -119,7 +119,7 @@ def register(request):
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
+            user = user_form.save(commit=False)
             user.set_password(user.password)
             user.save()
             profile = profile_form.save(commit=False)
@@ -229,9 +229,32 @@ def suggest_category(request):
     return render(request, 'rango/category_list.html', {'cat_list': cat_list })
 
 
-def profile_edit(request, profile_id):
-    try:
-        user = User.objects.get(id=profile_id)
-    except User.DoesNotExist:
-        return HttpResponse('ERROR edit profile. No user with id: %s' % profile_id)
-    return HttpResponse('edit profile %s' % user.username)
+@login_required
+def profile_update(request):
+    if request.method == 'POST':
+        user = User.objects.get(username=request.user)
+        user_form = UserFormUpdate(data=request.POST, instance=user)
+        up = UserProfile.objects.get(user=user)
+        profile_form = UserProfileForm(data=request.POST, instance=up)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+            profile.save()
+            return redirect('/rango/profile')
+        else:
+            print user_form.errors, profile_form.errors
+    else:
+        user = User.objects.get(username=request.user)
+        user_form = UserFormUpdate(instance=user)
+        up = UserProfile.objects.get(user=user)
+        profile_form = UserProfileForm(instance=up)
+        user_form.fields['email2'].initial = user_form['email'].value()
+
+    return render(request, 'rango/profile_update.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form,
+                   'cat_list': get_category_list()}
+                 )
