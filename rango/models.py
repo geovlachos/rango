@@ -28,3 +28,13 @@ class UserProfile(models.Model):
     
     def __unicode__(self):
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        # delete old file when replacing by updating the file
+        try:
+            this = UserProfile.objects.get(id=self.id)
+            if this.picture != self.picture:
+                this.picture.delete(save=False)
+        except:
+            pass # when new photo then we do nothing, normal case          
+        super(UserProfile, self).save(*args, **kwargs)
