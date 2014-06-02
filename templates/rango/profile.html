@@ -27,8 +27,10 @@
 
     <p><br />
         <a href="/rango/profile/update/" class="btn btn-primary" role="button">Update profile</a>
+        {% if not user.is_staff or not user.is_superuser %}
         <a href="/rango/profile/change_password/" class="btn btn-warning" role="button">Change password</a>
         <a href="/rango/" class="btn btn-danger" role="button">Delete profile</a>
+        {% endif %}
     </p>
 </div>
 {% endblock %}

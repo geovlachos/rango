@@ -122,6 +122,8 @@ class UserPasswordChangeForm(forms.ModelForm):
 
     def clean_old_password(self):
         u = User.objects.get(username=self.instance.username)
+        if u.is_staff or u.is_superuser:
+            raise forms.ValidationError('Staff users cannot change OLD pass.')
         pass_check = u.check_password(self.data['old_password'])
         if not pass_check:
             raise forms.ValidationError('Invalid OLD Password.')
