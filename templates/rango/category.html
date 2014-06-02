@@ -27,7 +27,7 @@
         </p>
     {% endif %}
     <p>
-    <b id="like_count">{{ category.likes }}</b> people like this category
+    <strong id="like_count">{{ category.likes }}</strong> people like this category
     {% if user.is_authenticated %}
             <button id ="likes" data-catid="{{category.id}}" class="btn btn-mini btn-primary" type="button">Like</button>
     {% endif %}

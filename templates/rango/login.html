@@ -12,9 +12,9 @@
         <input type="hidden" name="next" value="{{ request.GET.next }}" />
 
         {% if bad_details %}
-        <p><strong>Your username and/or password were incorrect!</strong></p>
+        <p><span class="errorlist"><strong>Your username and/or password were incorrect!</strong></span></p>
         {% elif disabled_account %}
-        <p><strong>Your Rango account is currently disabled; we can't log you in!</strong></p>
+        <p><span class="errorlist"><strong>Your Rango account is currently disabled; we can't log you in!</strong></span></p>
         {% endif %}
 
         Username: <input type="text" class="input-block-level" placeholder="Username" name="username" value="" size="50" />
