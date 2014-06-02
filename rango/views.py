@@ -6,7 +6,7 @@ from rango.models import Category
 from rango.models import Page
 from rango.models import UserProfile
 from rango.forms import CategoryForm, PageForm
-from rango.forms import UserForm, UserProfileForm
+from rango.forms import UserForm, UserProfileForm, UserDeleteForm
 from rango.forms import UserUpdateForm, UserPasswordChangeForm
 from django.contrib.auth.models import User
 
@@ -300,6 +300,35 @@ def change_password(request):
         user_form = UserPasswordChangeForm(instance=user)
 
     return render(request, 'rango/change_password.html',
+                  {'user_form': user_form,
+                   'cat_list': get_category_list()}
+                 )
+
+
+@login_required
+def delete_user(request):
+    if request.method == 'POST':
+        user = User.objects.get(username=request.user)
+        user_form = UserDeleteForm(data=request.POST, instance=user)
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            up = UserProfile.objects.get(user=user)
+            if up.picture:
+                up.picture.delete()
+            user.delete()
+            logout(request)
+            return render(request, 'rango/message.html',
+                          {'message_header': 'User: ' + user.username,
+                           'message_body': 'Account deleted successfully.',
+                           'cat_list': get_category_list()}
+                         )
+        else:
+            print user_form.errors
+    else:
+        user = User.objects.get(username=request.user)
+        user_form = UserDeleteForm(instance=user)
+
+    return render(request, 'rango/delete_user.html',
                   {'user_form': user_form,
                    'cat_list': get_category_list()}
                  )

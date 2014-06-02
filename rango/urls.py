@@ -22,4 +22,5 @@ urlpatterns = patterns('',
         views.check_new_username, name='check_new_username'),
     url(r'^profile/change_password/$',
         views.change_password, name='change_password'),
+    url(r'^profile/delete/$', views.delete_user, name='delete_user'),
     )

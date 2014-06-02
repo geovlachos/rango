@@ -139,3 +139,27 @@ class UserPasswordChangeForm(forms.ModelForm):
         self.clean_old_password()
         self.clean_password()
         return cleaned_data
+
+
+class UserDeleteForm(forms.ModelForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(),
+                                   help_text="Please enter your password.")
+
+    class Meta:
+        model = User
+        exclude = ('username',)
+        fields = ['old_password']
+
+    def clean_old_password(self):
+        u = User.objects.get(username=self.instance.username)
+        if u.is_staff or u.is_superuser:
+            raise forms.ValidationError('Staff users cannot change OLD pass.')
+        pass_check = u.check_password(self.data['old_password'])
+        if not pass_check:
+            raise forms.ValidationError('Invalid Password.')
+        return self.data['old_password']
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        self.clean_old_password()
+        return cleaned_data

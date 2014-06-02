@@ -1,0 +1,33 @@
+{% extends 'rango/base.html' %}
+{% block title %}Delete User{% endblock %}
+{% block body_block %}
+<div class="hero-unit">
+    <h1>Delete user account</h1>
+    <br />
+
+    <div class="container">
+        {% if not user.is_staff or not user.is_superuser %}
+        <form class="form-signin span8" id="delete_user_form" method="post" action="/rango/profile/delete/"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2 class="form-signin-heading">user '{{ user.username }}'</h2>
+            <!-- Display each form here -->
+ 
+            {% for field in user_form.visible_fields %}
+            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span>
+            {{ field.help_text }}<br />
+            {{ field }}<br />
+            {% endfor %}
+
+            <br />
+            <!-- Provide a button to click to submit the form. -->
+            <input class="btn btn-danger" type="submit" name="submit" value="Delete Account"/>
+        </form>
+        {% else %}
+            <p>
+            <span class="errorlist"><strong>Staff users cannot delete their accounts from here.</strong></span>
+            </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
