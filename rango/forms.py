@@ -85,7 +85,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ['website', 'picture']
 
 
-class UserFormUpdate(forms.ModelForm):
+class UserUpdateForm(forms.ModelForm):
     email = forms.CharField(help_text="Please enter your email.")
     email2 = forms.CharField(help_text="Repeat your email.")
     first_name = forms.CharField(help_text="Please enter your first name.")
@@ -104,4 +104,36 @@ class UserFormUpdate(forms.ModelForm):
     def clean(self):
         cleaned_data = self.cleaned_data
         self.clean_email()
+        return cleaned_data
+
+
+class UserPasswordChangeForm(forms.ModelForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(),
+                                   help_text="Please enter your OLD password.")
+    password = forms.CharField(widget=forms.PasswordInput(),
+                               help_text="Please enter a NEW password.")
+    password2 = forms.CharField(widget=forms.PasswordInput(),
+                                help_text="Repeat your new password.")
+
+    class Meta:
+        model = User
+        exclude = ('username',)
+        fields = ['old_password', 'password', 'password2']
+
+    def clean_old_password(self):
+        u = User.objects.get(username=self.instance.username)
+        pass_check = u.check_password(self.data['old_password'])
+        if not pass_check:
+            raise forms.ValidationError('Invalid OLD Password.')
+        return self.data['old_password']
+
+    def clean_password(self):
+        if self.data['password'] != self.data['password2']:
+            raise forms.ValidationError('Passwords are not the same.')
+        return self.data['password']
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        self.clean_old_password()
+        self.clean_password()
         return cleaned_data

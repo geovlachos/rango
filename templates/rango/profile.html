@@ -15,10 +15,11 @@
 
     {% if userprofile %}
         <p><strong>Website:</strong> <a href="{{ userprofile.website }}" target="_blank">{{ userprofile.website }}</a></p>
-        <br/>
         {% if userprofile.picture %}
+            <p>
             <strong>Profile picture:</strong><br />
             <img src="{{ userprofile.picture.url }}"  />
+            </p>
         {% endif %}
     {% else %}
         <p><strong>No user profile found.</strong></p>
@@ -26,7 +27,7 @@
 
     <p><br />
         <a href="/rango/profile/update/" class="btn btn-primary" role="button">Update profile</a>
-        <a href="/rango/" class="btn btn-warning" role="button">Change password</a>
+        <a href="/rango/profile/change_password/" class="btn btn-warning" role="button">Change password</a>
         <a href="/rango/" class="btn btn-danger" role="button">Delete profile</a>
     </p>
 </div>

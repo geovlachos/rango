@@ -6,7 +6,8 @@ from rango.models import Category
 from rango.models import Page
 from rango.models import UserProfile
 from rango.forms import CategoryForm, PageForm
-from rango.forms import UserForm, UserProfileForm, UserFormUpdate
+from rango.forms import UserForm, UserProfileForm
+from rango.forms import UserUpdateForm, UserPasswordChangeForm
 from django.contrib.auth.models import User
 
 
@@ -237,7 +238,7 @@ def suggest_category(request):
 def profile_update(request):
     if request.method == 'POST':
         user = User.objects.get(username=request.user)
-        user_form = UserFormUpdate(data=request.POST, instance=user)
+        user_form = UserUpdateForm(data=request.POST, instance=user)
         up = UserProfile.objects.get(user=user)
         profile_form = UserProfileForm(data=request.POST, instance=up)
         if user_form.is_valid() and profile_form.is_valid():
@@ -252,7 +253,7 @@ def profile_update(request):
             print user_form.errors, profile_form.errors
     else:
         user = User.objects.get(username=request.user)
-        user_form = UserFormUpdate(instance=user)
+        user_form = UserUpdateForm(instance=user)
         up = UserProfile.objects.get_or_create(user=user)[0]
         profile_form = UserProfileForm(instance=up)
         user_form.fields['email2'].initial = user_form['email'].value()
@@ -276,3 +277,29 @@ def check_new_username(request):
         if user:
             return HttpResponse('* The username is already taken.')
     return HttpResponse('')
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        user = User.objects.get(username=request.user)
+        user_form = UserPasswordChangeForm(data=request.POST, instance=user)
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            user.set_password(user.password)
+            user.save()
+            return render(request, 'rango/message.html',
+                          {'message_header': 'User: ' + user.username,
+                           'message_body': 'Password changed successfully.',
+                           'cat_list': get_category_list()}
+                         )
+        else:
+            print user_form.errors
+    else:
+        user = User.objects.get(username=request.user)
+        user_form = UserPasswordChangeForm(instance=user)
+
+    return render(request, 'rango/change_password.html',
+                  {'user_form': user_form,
+                   'cat_list': get_category_list()}
+                 )

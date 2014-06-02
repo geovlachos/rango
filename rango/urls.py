@@ -20,4 +20,6 @@ urlpatterns = patterns('',
         views.suggest_category, name='suggest_category'),
     url(r'^check_new_username/$',
         views.check_new_username, name='check_new_username'),
+    url(r'^profile/change_password/$',
+        views.change_password, name='change_password'),
     )
