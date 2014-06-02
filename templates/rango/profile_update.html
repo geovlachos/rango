@@ -1,4 +1,8 @@
 {% extends 'rango/base.html' %}
+{% load static %}
+{% block overwrite_style %}
+    <link href="{% static 'css/overwrite.css' %}" rel="stylesheet" media="screen">
+{% endblock %}
 {% block title %}Profile update{% endblock %}
 {% block body_block %}
 <div class="hero-unit">
