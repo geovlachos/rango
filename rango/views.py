@@ -143,6 +143,7 @@ def register(request):
 
 
 def user_login(request):
+    cat_list = get_category_list()
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -156,13 +157,15 @@ def user_login(request):
                     return HttpResponseRedirect('/rango/')
             else:
                 return render(request, 'rango/login.html',
-                              {'disabled_account': True})
+                              {'disabled_account': True,
+                               'cat_list': cat_list})
         else:
             return render(request, 'rango/login.html',
-                          {'bad_details': True})
+                          {'bad_details': True,
+                           'cat_list': cat_list})
     else:
         return render(request, 'rango/login.html',
-                      {'cat_list': get_category_list()})
+                      {'cat_list': cat_list})
 
 
 @login_required
