@@ -261,3 +261,17 @@ def profile_update(request):
                    'profile_form': profile_form,
                    'cat_list': get_category_list()}
                  )
+
+
+def check_new_username(request):
+    username = None
+    if request.method == 'GET':
+        username = request.GET['new_username']
+    if username:
+        try:
+            user = User.objects.get(username=username)
+        except:
+            user = None
+        if user:
+            return HttpResponse('* The username is already taken.')
+    return HttpResponse('')

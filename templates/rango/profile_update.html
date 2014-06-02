@@ -9,7 +9,7 @@
     <h1>Profile update</h1> <br />
 
     <div class="container">
-        <form class="form-signin span8" id="user_form" method="post" action="/rango/profile/update/"
+        <form class="form-signin span8" id="profile_update" method="post" action="/rango/profile/update/"
               enctype="multipart/form-data">
             {% csrf_token %}
             <h2 class="form-signin-heading">'{{ user.username }}' update your info here</h2>

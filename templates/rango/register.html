@@ -18,7 +18,7 @@
             <!-- Display each form here -->
 
             {% for field in user_form.visible_fields %}
-            <span class="errorlist">{{ field.errors.as_text }}</span>
+            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span>
             {{ field.help_text }}<br />
             {{ field }}<br />
             {% endfor %}

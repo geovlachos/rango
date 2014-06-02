@@ -18,4 +18,6 @@ urlpatterns = patterns('',
     url(r'^like_category/$', views.like_category, name='like_category'),
     url(r'^suggest_category/$',
         views.suggest_category, name='suggest_category'),
+    url(r'^check_new_username/$',
+        views.check_new_username, name='check_new_username'),
     )

@@ -19,4 +19,12 @@ $(document).ready(function() {
         });
     });
 
+    $('#user_form #id_username').keyup(function(){
+        var username;
+        username = $(this).val();
+        $.get('/rango/check_new_username/', {new_username: username}, function(data){
+            $('#errorlist_username').html(data);
+        });
+    });
+
 });
