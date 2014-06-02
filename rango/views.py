@@ -249,7 +249,7 @@ def profile_update(request):
     else:
         user = User.objects.get(username=request.user)
         user_form = UserFormUpdate(instance=user)
-        up = UserProfile.objects.get(user=user)
+        up = UserProfile.objects.get_or_create(user=user)[0]
         profile_form = UserProfileForm(instance=up)
         user_form.fields['email2'].initial = user_form['email'].value()
 
