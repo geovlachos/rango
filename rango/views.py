@@ -19,11 +19,11 @@ def decode_url(url):
     return url.replace('_', ' ')
 
 
-def get_category_list(max_results=0, starts_with=''):
+def get_category_list(max_results=0, contains=''):
     cat_list = []
-    if starts_with:
+    if contains:
         cat_list = Category.objects.filter(
-            name__istartswith=starts_with).order_by('name')
+            name__contains=contains).order_by('name')
     else:
         cat_list = Category.objects.all().order_by('name')
 
@@ -225,11 +225,11 @@ def like_category(request):
 
 def suggest_category(request):
     cat_list = []
-    starts_with = ''
+    contains = ''
     if request.method == 'GET':
-        starts_with = request.GET['suggestion']
+        contains = request.GET['suggestion']
 
-    cat_list = get_category_list(8, starts_with)
+    cat_list = get_category_list(8, contains)
 
     return render(request, 'rango/category_list.html', {'cat_list': cat_list })
 
