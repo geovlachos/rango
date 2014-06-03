@@ -113,7 +113,7 @@ class UserPasswordChangeForm(UserForm):
                 password from here.')
         valid_old_password = user.check_password(self.data['old_password'])
         if not valid_old_password:
-            raise forms.ValidationError('Invalid OLD Password.')
+            raise forms.ValidationError('Invalid Password.')
         return self.data['old_password']
 
 
@@ -126,3 +126,4 @@ class UserDeleteForm(UserPasswordChangeForm):
         super(UserDeleteForm, self).__init__(*args, **kwargs)
         self.fields.pop('password')
         self.fields.pop('retype_password')
+        self.fields['old_password'].help_text= "Please enter your password:"
