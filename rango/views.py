@@ -256,7 +256,7 @@ def profile_update(request):
         user_form = UserUpdateForm(instance=user)
         up = UserProfile.objects.get_or_create(user=user)[0]
         profile_form = UserProfileForm(instance=up)
-        user_form.fields['email2'].initial = user_form['email'].value()
+        user_form.fields['retype_email'].initial = user_form['email'].value()
 
     return render(request, 'rango/profile_update.html',
                   {'user_form': user_form,
@@ -275,7 +275,7 @@ def check_new_username(request):
         except:
             user = None
         if user:
-            return HttpResponse('* The username is already taken.')
+            return HttpResponse('* This username is already taken.')
     return HttpResponse('')
 
 
