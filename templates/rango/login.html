@@ -16,12 +16,19 @@
         {% elif disabled_account %}
         <p><span class="errorlist"><strong>Your Rango account is currently disabled; we can't log you in!</strong></span></p>
         {% endif %}
-
-        Username: <input type="text" class="input-block-level" placeholder="Username" name="username" value="" size="50" />
-        <br />
-        Password: <input type="password" class="input-block-level" placeholder="Password" name="password" value="" size="50" />
-        <br />
-        <button class="btn btn-primary" type="submit">Sign in</button>
+        Username:
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on"><i class="icon-user"></i></span>
+                <input type="text" class="input-block-level" placeholder="Username" name="username" value="" size="50" />
+            </div>
+        </div>
+        Password:
+        <div class="input-prepend">
+            <span class="add-on"><i class="icon-chevron-right"></i></span>
+            <input type="password" class="input-block-level" placeholder="Password" name="password" value="" size="50" />
+        </div>
+        <p><button class="btn btn-primary" type="submit">Sign in</button></p>
     </form>
     </div>
     <!-- /container -->

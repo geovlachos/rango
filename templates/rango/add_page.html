@@ -12,7 +12,7 @@
             {% endfor %}
 
             {% for field in form.visible_fields %}
-            {{ field.errors }}
+            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span>
             {{ field.help_text }}<br />
             {{ field }}<br />
             {% endfor %}

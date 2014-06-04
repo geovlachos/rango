@@ -23,4 +23,6 @@ urlpatterns = patterns('',
     url(r'^profile/change_password/$',
         views.change_password, name='change_password'),
     url(r'^profile/delete/$', views.delete_user, name='delete_user'),
+    url(r'^page/(?P<page_id>\d+)/delete/$',
+        views.delete_page, name='delete_page'),
     )

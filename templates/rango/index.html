@@ -15,10 +15,11 @@
             {% for category in categories %}
             <li>
                 <a href="/rango/category/{{ category.url }}">{{ category.name }}</a>
+                 <span class="badge">{{ category.likes }}</span>
                 {% if category.likes > 1 %}
-                    ({{ category.likes }} likes)
+                    likes
                 {% elif category.likes == 1 %}
-                    ({{ category.likes }} like)
+                    like
                 {% endif %}
             </li>
             {% endfor %}
@@ -37,11 +38,11 @@
                 {% for page in pages %}
                 <li>
                     <a href="/rango/goto/?page_id={{page.id}}" target="_blank">{{ page.title }}</a>
-                    - {{ page.category }}
+                    - {{ page.category }} <span class="badge">{{ page.views }}</span>
                     {% if page.views > 1 %}
-                        ({{ page.views }} views)
+                       views
                     {% elif page.views == 1 %}
-                        ({{ page.views }} view)
+                        view
                     {% endif %}
                 </li>
                 {% endfor %}

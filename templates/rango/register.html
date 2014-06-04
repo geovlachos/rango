@@ -20,13 +20,35 @@
             {% for field in user_form.visible_fields %}
             <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span>
             {{ field.help_text }}<br />
-            {{ field }}<br />
+            <div class="controls">
+                <div class="input-prepend">
+                    {% if field.name == 'username' %}
+                        <span class="add-on"><i class="icon-user"></i></span>
+                    {% elif field.name == 'password' or field.name == 'retype_password' %}
+                        <span class="add-on"><i class="icon-chevron-right"></i></span>
+                    {% elif field.name == 'email' or field.name == 'retype_email' %}
+                        <span class="add-on"><i class="icon-envelope"></i></span>
+                    {% elif field.name == 'first_name' %}
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    {% elif field.name == 'last_name' %}
+                        <span class="add-on"><i class="icon-th-large"></i></span>
+                    {% endif %}
+                    {{ field }}<br />
+                </div>
+            </div>
             {% endfor %}
 
             {% for field in profile_form.visible_fields %}
             <span class="errorlist">{{ field.errors.as_text }}</span>
             {{ field.help_text }}<br />
-            {{ field }}<br />
+            <div class="controls">
+                <div class="input-prepend">
+                    {% if field.name == 'website' %}
+                        <span class="add-on"><i class="icon-globe"></i></span>
+                    {% endif %}
+                    {{ field }}<br />
+                </div>
+            </div>
             {% endfor %}
 
             <br />

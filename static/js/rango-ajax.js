@@ -26,5 +26,22 @@ $(document).ready(function() {
             $('#errorlist_username').html(data);
         });
     });
+    
+    $('#dialog-confirm').on('show', function(){
+        var name = $(this).data('args').name;
+        var ref = $(this).data('args').ref;
+        removeBtn = $(this).find('#confirm-yes');
 
+        removeBtn.attr('href', removeBtn.attr('href').replace(/.*/, ref));
+    
+        $('#url-name').html('<strong>' + name + '</strong>');
+    });
+
+    $('.delete-item').on('click', function(e) {
+        e.preventDefault();
+
+        var name = $(this).data('name');
+        var ref = $(this).attr('href');
+        $('#dialog-confirm').data('args', {'name': name, 'ref': ref}).modal('show');
+    });
 });

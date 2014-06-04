@@ -332,3 +332,19 @@ def delete_user(request):
                   {'user_form': user_form,
                    'cat_list': get_category_list()}
                  )
+
+
+@login_required
+def delete_page(request, page_id):
+    url = '/rango/'
+    if request.method == 'GET':
+        if page_id:
+            try:
+                page = Page.objects.get(id=page_id)
+                category = page.category
+                url = '/rango/category/' + encode_url(category.name)
+                page.delete()
+            except:
+                pass
+
+    return redirect(url)

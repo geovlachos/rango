@@ -4,15 +4,36 @@
 <div class="hero-unit">
     <h2>Category: {{ category_name }}</h2>
 
+    <!-- modal dialog -->
+    <div id="dialog-confirm" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Confirm Deletion</h3>
+        </div>
+        <div class="modal-body">
+            <p>You are about to delete <span id="url-name"></span>, this procedure is irreversible.</p>
+            <p>Do you want to proceed?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="delete.php?ref=" class="btn btn-danger" id="confirm-yes">Yes</a>
+            <a href="#" data-dismiss="modal" class="btn btn-success">No</a>
+        </div>
+    </div>
+    <!-- end dialog -->
+
     {% if pages %}
     <ul>
         {% for page in pages %}
         <li>
             <a href="/rango/goto/?page_id={{page.id}}" target="_blank">{{page.title}}</a>
+            {% if user.is_authenticated %}
+                <i class="icon-pencil" title="edit"> </i>
+                <a href="/rango/page/{{page.id}}/delete/" class="delete-item" data-name="{{page.title}}"><i class="icon-trash" title="delete"></i></a>
+            {% endif %}
             {% if page.views > 1 %}
-                - ({{ page.views }} views)
+                <span class="badge">{{ page.views }} views</span>
             {% elif page.views == 1 %}
-                - ({{ page.views }} view)
+                <span class="badge">{{ page.views }} view</span>
             {% endif %}
         </li>
         {% endfor %}
