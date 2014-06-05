@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from rango.models import Category
 from rango.models import Page
 from rango.models import UserProfile
-from rango.forms import CategoryForm, PageForm
+from rango.forms import CategoryForm, PageForm, EditPageForm
 from rango.forms import UserForm, UserProfileForm, UserDeleteForm
 from rango.forms import UserUpdateForm, UserPasswordChangeForm
 from django.contrib.auth.models import User
@@ -345,6 +345,47 @@ def delete_page(request, page_id):
                 url = '/rango/category/' + encode_url(category.name)
                 page.delete()
             except:
-                pass
+                return render(request, 'rango/message.html',
+                              {'message_header': 'Page not Found',
+                               'message_body': 'Requested page with ID: ' + \
+                                               page_id + \
+                                               ' not found for deletion',
+                               'cat_list': get_category_list()}
+                             )
 
     return redirect(url)
+
+
+@login_required
+def edit_page(request, page_id):
+    if request.method == 'POST':
+        url = '/rango/'
+        page = Page.objects.get(id=page_id)
+        category = page.category
+        page_form = EditPageForm(data=request.POST, instance=page)
+        if page_form.is_valid():
+            page.save()
+            url = '/rango/category/' + encode_url(category.name)
+            return redirect(url)
+        else:
+            print page_form.errors
+    else:
+        if page_id:
+            try:
+                page = Page.objects.get(id=page_id)
+                page_form = EditPageForm(instance=page)
+                category = page.category
+            except:
+                return render(request, 'rango/message.html',
+                              {'message_header': 'Page not Found',
+                               'message_body': 'Requested page with ID: ' + \
+                                               page_id + ' not found for edit',
+                               'cat_list': get_category_list()}
+                             )
+
+    return render(request, 'rango/edit_page.html',
+                  {'form': page_form,
+                   'page_id': page_id,
+                   'category_name': category,
+                   'cat_list': get_category_list()}
+                 )

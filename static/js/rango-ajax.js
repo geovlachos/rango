@@ -44,4 +44,7 @@ $(document).ready(function() {
         var ref = $(this).attr('href');
         $('#dialog-confirm').data('args', {'name': name, 'ref': ref}).modal('show');
     });
+
+    $('.my-tooltip').tooltip();
+
 });

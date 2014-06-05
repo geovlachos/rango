@@ -37,12 +37,13 @@ class UserForm(forms.ModelForm):
     first_name = forms.CharField(help_text="Please enter your first name:")
     last_name = forms.CharField(help_text="Please enter your last name:")
     username = forms.CharField(help_text="Please enter a username:")
-    password = forms.CharField(widget=forms.PasswordInput(),
+    password = forms.CharField(widget=forms.PasswordInput(render_value=True),
                                help_text="Please enter a password:")
-    retype_password = forms.CharField(widget=forms.PasswordInput(),
+    retype_password = forms.CharField(widget=forms.PasswordInput(
+                                      render_value=True),
                                       help_text="Retype your password:")
-    email = forms.CharField(help_text="Please enter your email:")
-    retype_email = forms.CharField(help_text="Retype your email:")
+    email = forms.EmailField(help_text="Please enter your email:")
+    retype_email = forms.EmailField(help_text="Retype your email:")
 
     class Meta:
         model = User
@@ -127,3 +128,11 @@ class UserDeleteForm(UserPasswordChangeForm):
         self.fields.pop('password')
         self.fields.pop('retype_password')
         self.fields['old_password'].help_text= "Please enter your password:"
+
+
+class EditPageForm(PageForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),
+                                      empty_label=None,
+                                      help_text="Select a page Category:")
+    class Meta:
+        model = Page

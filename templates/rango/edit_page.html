@@ -1,0 +1,25 @@
+{% extends 'rango/base.html' %}
+{% block title %}Edit page{% endblock %}
+{% block body_block %}
+<div class="hero-unit">
+    <h2>Edit page in '{{ category_name }}' category</h2>
+    <br />
+    <div class="container">
+        <form class ="span6" id="edit_page_form" method="post" action="/rango/page/{{ page_id }}/edit/">
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span>
+            {{ field.help_text }}<br />
+            {{ field }}<br />
+            {% endfor %}
+
+            <br />
+            <button class="btn btn-danger" type="submit" name="submit">Update Page</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

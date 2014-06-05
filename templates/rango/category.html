@@ -27,8 +27,8 @@
         <li>
             <a href="/rango/goto/?page_id={{page.id}}" target="_blank">{{page.title}}</a>
             {% if user.is_authenticated %}
-                <i class="icon-pencil" title="edit"> </i>
-                <a href="/rango/page/{{page.id}}/delete/" class="delete-item" data-name="{{page.title}}"><i class="icon-trash" title="delete"></i></a>
+                <a href="/rango/page/{{page.id}}/edit/" class="edit-item my-tooltip" data-name="{{page.title}}" data-toggle="tooltip" title="edit"><i class="icon-pencil"></i></a>
+                <a href="/rango/page/{{page.id}}/delete/" class="delete-item my-tooltip" data-name="{{page.title}}" data-toggle="tooltip" title="delete"><i class="icon-trash"></i></a>
             {% endif %}
             {% if page.views > 1 %}
                 <span class="badge">{{ page.views }} views</span>
@@ -44,13 +44,13 @@
 
     {% if user.is_authenticated %}
         <p>
-        <a href="/rango/category/{{category_name_url}}/add_page/" class="btn btn-default" role="button">Add a Page</a>
+        <br /><a href="/rango/category/{{category_name_url}}/add_page/" class="btn btn-primary" role="button">Add a Page</a>
         </p>
     {% endif %}
     <p>
     <strong id="like_count">{{ category.likes }}</strong> people like this category
     {% if user.is_authenticated %}
-            <button id ="likes" data-catid="{{category.id}}" class="btn btn-mini btn-primary" type="button">Like</button>
+            <button id ="likes" data-catid="{{category.id}}" class="btn btn-mini btn-info" type="button">Like</button>
     {% endif %}
     </p>
 </div>
