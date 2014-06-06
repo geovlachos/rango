@@ -101,7 +101,7 @@ def add_page(request, category_name_url):
                 return render(request, 'rango/add_category.html', {})
             page.views = 0
             page.save()
-            return category(request, category_name_url)
+            return redirect('/rango/category/' + category_name_url)
         else:
             print form.errors
     else:
