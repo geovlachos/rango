@@ -1,11 +1,11 @@
 {% extends 'rango/base.html' %}
-{% block title %}Add category{% endblock %}
+{% block title %}Edit category{% endblock %}
 {% block body_block %}
 <div class="hero-unit">
-    <h1>Add a Category</h1>
+    <h2>Edit Category '{{ category_name }}'</h2>
     <br/>
     <div class="container">
-        <form class="span6" id="category_form" method="post" action="/rango/add_category/">
+        <form class="span6" id="edit_category_form" method="post" action="/rango/category/{{ category_url }}/edit/">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
             {{ hidden }}
@@ -17,8 +17,8 @@
             {{ field }}
             {% endfor %}
 
-            <p><br />
-            <button class="btn btn-primary my-tooltip" type="submit" name="submit" data-toggle="tooltip" data-placement="right" title="create new"><i class="icon-plus icon-white"></i>&nbsp;&nbsp;Category</button>
+            <p><br/>
+            <button class="btn btn-primary my-tooltip" type="submit" name="submit" data-toggle="tooltip" data-placement="right" title="update"><i class="icon-refresh icon-white"></i>&nbsp;&nbsp;Category</button>
             </p>
         </form>
     </div>

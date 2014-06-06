@@ -389,3 +389,57 @@ def edit_page(request, page_id):
                    'category_name': category,
                    'cat_list': get_category_list()}
                  )
+
+
+@login_required
+def delete_category(request, category_url):
+    url = '/rango/'
+    if request.method == 'GET':
+        if category_url:
+            try:
+                category = Category.objects.get(name=decode_url(category_url))
+                category.delete()
+            except:
+                return render(request, 'rango/message.html',
+                              {'message_header': 'Category not Found',
+                               'message_body': 'Requested category with URL: ' + \
+                                               category_url + \
+                                               ' not found for deletion',
+                               'cat_list': get_category_list()}
+                             )
+
+    return redirect(url)
+
+
+@login_required
+def edit_category(request, category_url):
+    if request.method == 'POST':
+        url = '/rango/'
+        category = Category.objects.get(name=decode_url(category_url))
+        category_form = CategoryForm(data=request.POST, instance=category)
+        if category_form.is_valid():
+            category.save()
+            url = '/rango/category/' + encode_url(category.name)
+            return redirect(url)
+        else:
+            print category_form.errors
+    else:
+        if category_url:
+            try:
+                category = Category.objects.get(name=decode_url(category_url))
+                category_form = CategoryForm(instance=category)
+            except:
+                return render(request, 'rango/message.html',
+                              {'message_header': 'Category not Found',
+                               'message_body': 'Requested category with URL: ' + \
+                                               category_url + \
+                                               ' not found for deletion',
+                               'cat_list': get_category_list()}
+                             )
+
+    return render(request, 'rango/edit_category.html',
+                  {'form': category_form,
+                   'category_url': category_url,
+                   'category_name': category,
+                   'cat_list': get_category_list()}
+                 )

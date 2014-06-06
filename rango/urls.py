@@ -27,4 +27,8 @@ urlpatterns = patterns('',
         views.delete_page, name='delete_page'),
     url(r'^page/(?P<page_id>\d+)/edit/$',
         views.edit_page, name='edit_page'),
+    url(r'^category/(?P<category_url>\w+)/delete/$',
+        views.delete_category, name='delete_category'),
+    url(r'^category/(?P<category_url>\w+)/edit/$',
+        views.edit_category, name='edit_category'),
     )
