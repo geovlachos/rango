@@ -106,6 +106,10 @@ class UserPasswordChangeForm(UserForm):
         self.fields.pop('username')
         self.fields.pop('email')
         self.fields.pop('retype_email')
+        self.fields['password'].widget = \
+            forms.PasswordInput(render_value=False)
+        self.fields['retype_password'].widget = \
+            forms.PasswordInput(render_value=False)
 
     def clean_old_password(self):
         user = User.objects.get(username=self.instance.username)
