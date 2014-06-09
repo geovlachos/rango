@@ -52,7 +52,7 @@
     <p>
     <strong id="like_count">{{ category.likes }}</strong> people like this category
     {% if user.is_authenticated %}
-            <button id ="likes" data-catid="{{category.id}}" class="btn btn-mini btn-info" type="button">Like</button>
+            <button id ="likes" data-catid="{{category.id}}" class="btn btn-mini btn-info" type="button"><i class="icon-thumbs-up icon-white"></i>&nbsp;&nbsp;Like</button>
     {% endif %}
     </p>
 </div>

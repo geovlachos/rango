@@ -47,4 +47,8 @@ $(document).ready(function() {
 
     $('.my-tooltip').tooltip();
 
+    $('.carousel').carousel({
+        interval: 4000
+    })
+
 });
