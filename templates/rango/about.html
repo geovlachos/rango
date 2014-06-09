@@ -6,22 +6,45 @@
     <h1>About Rango...</h1>
     <p>Rango <strong>{{ boldmessage }}</strong></p><br />
 </div>
+<div class="row-fluid">
+<div class="alert alert-success">
+I have used the following frameworks in the making of <strong>Rango</strong>
+</div>
+</div>
+<div class="row-fluid">
 <ul class="thumbnails">
     <li class="span4">
         <div class="thumbnail">
-            <img src="{% static "rango1.jpg" %}" alt="Picture of Rango" style="width: 300px; height: 230px" />
+            <img src="{% static "img/DjangoPython.png" %}" alt="" style="width: 200px; height: 200px;" />
+            <div class="caption">
+            <h3>Django</h3>
+            <p>Django is a free and open source web application framework, written in Python, which follows the model–view–controller architectural pattern. Django's primary goal is to ease the creation of complex, database-driven websites. Django emphasizes reusability and "pluggability" of components, rapid development, and the principle of don't repeat yourself. Python is used throughout, even for settings, files, and data models.</p>
+        </div>
         </div>
     </li>
     <li class="span4">
         <div class="thumbnail">
-            <img src="{% static "rango2.jpg" %}" alt="Picture of Johnny Depp" style="width: 300px; height: 230px" />
+            <img src="{% static "img/BootstrapTwitter.jpg" %}" alt="" style="width: 200px; height: 200px;" />
+            <div class="caption">
+            <h3>Bootstrap</h3>
+            <p>Bootstrap is a free collection of tools for creating websites and web applications. It contains HTML and CSS-based design templates for typography, forms, buttons, navigation and other interface components, as well as optional JavaScript extensions. Bootstrap is compatible with the latest versions of all major browsers. It supports responsive web design. This means the layout of web pages adjusts dynamically, taking into account the characteristics of the device used.</p>
+        </div>
         </div>
     </li>
     <li class="span4">
         <div class="thumbnail">
-            <h3>About...</h3>
-            <p>This is a site created with the Django Framework. It uses also Bootstap and JQuery.</p>
+            <img src="{% static "img/jQuery.png" %}" alt="" style="width: 200px; height: 200px;" />
+            <div class="caption">
+            <h3>jQuery</h3>
+            <p>jQuery is a cross-platform JavaScript library designed to simplify the client-side scripting of HTML. jQuery's syntax is designed to make it easier to navigate a document, select DOM elements, create animations, handle events, and develop Ajax applications. The modular approach to the jQuery library allows the creation of powerful dynamic web pages and web applications.</p>
+        </div>
         </div>
     </li>
 </ul>
+</div>
+<div class="row-fluid">
+<div class="alert">
+You can see the site code in <a href="https://github.com/geovlachos/rango" target="_blank" ><strong>GitHub</strong></a>
+</div>
+</div>
 {% endblock %}
