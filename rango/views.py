@@ -9,6 +9,7 @@ from rango.forms import CategoryForm, PageForm, EditPageForm
 from rango.forms import UserForm, UserProfileForm, UserDeleteForm
 from rango.forms import UserUpdateForm, UserPasswordChangeForm
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def encode_url(url):
@@ -63,7 +64,16 @@ def category(request, category_name_url):
     context['cat_list'] = get_category_list()
     try:
         category = Category.objects.get(name=category_name)
-        pages = Page.objects.filter(category=category).order_by('-views')
+        pages_list = Page.objects.filter(category=category).order_by('-views')
+        paginator = Paginator(pages_list, 20)
+        page_idx = request.GET.get('page')
+        try:
+            pages = paginator.page(page_idx)
+        except PageNotAnInteger:
+            pages = paginator.page(1)
+        except EmptyPage:
+            pages = paginator.page(paginator.num_pages)
+
         context['pages'] = pages
         context['category'] = category
     except Category.DoesNotExist:

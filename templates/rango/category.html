@@ -3,7 +3,9 @@
 {% block body_block %}
 <div class="hero-unit">
     <h2>Category: {{ category_name }}</h2>
+</div>
 
+<div class="row-fluid">
     <!-- modal dialog -->
     <div id="dialog-confirm" class="modal hide fade">
         <div class="modal-header">
@@ -22,22 +24,42 @@
     <!-- end dialog -->
 
     {% if pages %}
-    <ul>
-        {% for page in pages %}
-        <li>
-            <a href="/rango/goto/?page_id={{page.id}}" target="_blank">{{page.title}}</a>
-            {% if user.is_authenticated %}
-                <a href="/rango/page/{{page.id}}/edit/" class="edit-item my-tooltip" data-name="Page: {{page.title}}" data-toggle="tooltip" title="edit"><i class="icon-pencil"></i></a>
-                <a href="/rango/page/{{page.id}}/delete/" class="delete-item my-tooltip" data-name="Page: {{page.title}}" data-toggle="tooltip" title="delete"><i class="icon-trash"></i></a>
-            {% endif %}
-            {% if page.views > 1 %}
-                <span class="badge">{{ page.views }} views</span>
-            {% elif page.views == 1 %}
-                <span class="badge">{{ page.views }} view</span>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
+        <table class="table table-striped">
+        <tbody>
+            {% for page in pages %}
+            <tr><td>
+                <a href="/rango/goto/?page_id={{page.id}}" target="_blank">{{page.title}}</a>
+                <span class="pull-right">
+                {% if page.views > 1 %}
+                    <span class="badge">{{ page.views }} views</span>
+                {% elif page.views == 1 %}
+                    <span class="badge">{{ page.views }} view</span>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <a href="/rango/page/{{page.id}}/edit/" class="edit-item my-tooltip" data-name="Page: {{page.title}}" data-toggle="tooltip" title="edit"><i class="icon-pencil"></i></a>
+                    <a href="/rango/page/{{page.id}}/delete/" class="delete-item my-tooltip" data-name="Page: {{page.title}}" data-toggle="tooltip" title="delete"><i class="icon-trash"></i></a>
+                {% endif %}
+                </span>
+            </tr></td>
+            {% endfor %}
+        </tbody>
+        </table>
+
+        {% if pages.has_other_pages %}
+            <ul class="pager">
+                {% if pages.has_previous %}
+                    <li class="previous"><a href="?page={{ pages.previous_page_number }}">Previous</a></li>
+                {% else %}
+                    <li class="previous disabled"><a href="#">Previous</a></li>
+                {% endif %}
+                <span class="muted">Page {{ pages.number }} of {{ pages.paginator.num_pages }}</span>
+                {% if pages.has_next %}
+                    <li class="next"><a href="?page={{ pages.next_page_number }}">Next</a></li>
+                {% else %}
+                    <li class="next disabled"><a href="#">Next</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
     {% else %}
         <strong>No pages currently in category.</strong>
     {% endif %}
@@ -49,6 +71,9 @@
         <a href="/rango/category/{{category_name_url}}/delete/" class="btn btn-danger delete-item my-tooltip" data-name="Category: {{category_name}}" role="button" data-toggle="tooltip" data-placement="right" title="delete"><i class="icon-trash icon-white"></i>&nbsp;&nbsp;Category</i></a>
         </p>
     {% endif %}
+</div>
+<div class="row-fluid">
+    <hr>
     <p>
     <strong id="like_count">{{ category.likes }}</strong> people like this category
     {% if user.is_authenticated %}
