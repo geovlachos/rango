@@ -3,18 +3,18 @@
 {% block body_block %}
 <div class="hero-unit">
     <h1>Register with Rango</h1>
-    <br />
-
-    <div class="container">
+</div>
+<div class="row-fluid">
+    <div class="well well-small">
         {% if registered %}
         <p>Thank you for registering.</p>
 
         <p><a href="/rango/login/">Login</a> when you are ready to rango.</p>
         {% else %}
-        <form class="form-signin span8" id="user_form" method="post" action="/rango/register/"
+        <form class="form-signin offset1" id="user_form" method="post" action="/rango/register/"
               enctype="multipart/form-data">
             {% csrf_token %}
-            <h2 class="form-signin-heading">Sign up Here</h2>
+            <h3 class="form-signin-heading">Sign up Here</h3>
             <!-- Display each form here -->
 
             {% for field in user_form.visible_fields %}

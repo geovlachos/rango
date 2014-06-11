@@ -3,10 +3,11 @@
 {% block body_block %}
 <div class="hero-unit">
     <h1>Login to Rango</h1>
-
-    <div class="container">
-    <form class="form-signin span4" id="login_form" method="post" action="/rango/login/">
-        <h2 class="form-signin-heading">Please sign in</h2>
+</div>
+<div class="row-fluid">
+    <div class="well well-small">
+    <form class="form-signin offset1" id="login_form" method="post" action="/rango/login/">
+        <h3 class="form-signin-heading">Please sign in</h3>
         {% csrf_token %}
 
         <input type="hidden" name="next" value="{{ request.GET.next }}" />
@@ -30,15 +31,14 @@
                 <input type="password" class="input-block-level" placeholder="Password" name="password" value="" />
             </div>
         </div>
-        <p><button class="btn btn-primary" type="submit">Sign in</button></p>
+        <p><br /><button class="btn btn-primary" type="submit">Sign in</button></p>
     </form>
     </div>
-    <!-- /container -->
 </div>
-<div class="alert">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <h4>Information!</h4>
-    <p>This is a demo site. Login with username <strong>test</strong> and password <strong>test</strong> or Register your own account to see the full functionality.</p>
-    <p>If you Register you will have more options available to control your account.</p>
-</div>
+    <div class="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Information!</h4>
+        <p>This is a demo site. Login with username <strong>test</strong> and password <strong>test</strong> or Register your own account to see the full functionality.</p>
+        <p>If you Register you will have more options available to control your account.</p>
+    </div>
 {% endblock %}

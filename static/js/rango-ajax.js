@@ -59,6 +59,7 @@ $(document).ready(function() {
         $.get('/rango/suggest_category/', {cat_page: ref, suggestion: query}, function(data){
             $('#cats').html(data);
         });
+
     });
 
 });
