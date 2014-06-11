@@ -48,9 +48,9 @@
         {% if pages.has_other_pages %}
             <ul class="pager">
                 {% if pages.has_previous %}
-                    <li class="previous"><a href="?page={{ pages.previous_page_number }}">Previous</a></li>
+                    <li class="previous"><a href="?page={{ pages.previous_page_number }}">Prev</a></li>
                 {% else %}
-                    <li class="previous disabled"><a href="#">Previous</a></li>
+                    <li class="previous disabled"><a href="#">Prev</a></li>
                 {% endif %}
                 <span class="muted">Page {{ pages.number }} of {{ pages.paginator.num_pages }}</span>
                 {% if pages.has_next %}

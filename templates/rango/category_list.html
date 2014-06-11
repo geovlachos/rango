@@ -4,6 +4,23 @@
         {% for cat in cat_list %}
         <li class="{% active request '/rango/category/'|add:cat.url|add:'/' %}"><a href="/rango/category/{{ cat.url }}">{{ cat.name }}</a></li>
         {% endfor %}
+
+        {% if cat_list.has_other_pages %}
+        <div class="pagination pagination-small pagination-centered">
+            <ul>
+                {% if cat_list.has_previous %}
+                    <li><a href="?cat_page={{ cat_list.previous_page_number }}">Prev</a></li>
+                {% else %}
+                    <li class="disabled"><a href="#">Prev</a></li>
+                {% endif %}
+                {% if cat_list.has_next %}
+                    <li><a href="?cat_page={{ cat_list.next_page_number }}">Next</a></li>
+                {% else %}
+                    <li class="disabled"><a href="#">Next</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
     {% else %}
         <li>No categories at present.</li>
    {% endif %}

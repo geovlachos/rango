@@ -20,17 +20,32 @@ def decode_url(url):
     return url.replace('_', ' ')
 
 
-def get_category_list(max_results=0, contains=''):
-    cat_list = []
+def get_category_list(max_results=0, contains='', request=''):
+    cat_list_pages = []
     if contains:
-        cat_list = Category.objects.filter(
+        cat_list_pages = Category.objects.filter(
             name__contains=contains).order_by('name')
     else:
-        cat_list = Category.objects.all().order_by('name')
+        cat_list_pages = Category.objects.all().order_by('name')
 
     if max_results > 0:
-        if len(cat_list) > max_results:
-            cat_list = cat_list[:max_results]
+        if len(cat_list_pages) > max_results:
+            cat_list_pages = cat_list_pages[:max_results]
+
+    if contains:
+        cat_list = cat_list_pages
+    else:
+        if request:
+            paginator = Paginator(cat_list_pages, 5)
+            page_idx = request.GET.get('cat_page')
+            try:
+                cat_list = paginator.page(page_idx)
+            except PageNotAnInteger:
+                cat_list = paginator.page(1)
+            except EmptyPage:
+                cat_list = paginator.page(paginator.num_pages)
+        else:
+            cat_list = cat_list_pages
 
     for cat in cat_list:
         cat.url = encode_url(cat.name)
@@ -44,7 +59,7 @@ def index(request):
     context = {'boldmessage': 'explore them...',
                'categories': category_list,
                'pages': page_list,
-               'cat_list': get_category_list()
+               'cat_list': get_category_list(request=request)
                }
     for category in category_list:
         category.url = encode_url(category.name)
@@ -53,7 +68,7 @@ def index(request):
 
 def about(request):
     context = {'boldmessage': 'is a fantastic dude!!!!!'}
-    context['cat_list'] = get_category_list()
+    context['cat_list'] = get_category_list(request=request)
     return render(request, 'rango/about.html', context)
 
 
@@ -61,11 +76,11 @@ def category(request, category_name_url):
     category_name = decode_url(category_name_url)
     context = {'category_name': category_name}
     context['category_name_url'] = category_name_url
-    context['cat_list'] = get_category_list()
+    context['cat_list'] = get_category_list(request=request)
     try:
         category = Category.objects.get(name=category_name)
         pages_list = Page.objects.filter(category=category).order_by('-views')
-        paginator = Paginator(pages_list, 20)
+        paginator = Paginator(pages_list, 15)
         page_idx = request.GET.get('page')
         try:
             pages = paginator.page(page_idx)
@@ -94,7 +109,8 @@ def add_category(request):
         form = CategoryForm()
 
     return render(request, 'rango/add_category.html',
-                  {'form': form, 'cat_list': get_category_list()})
+                  {'form': form,
+                   'cat_list': get_category_list(request=request)})
 
 
 @login_required
@@ -121,7 +137,7 @@ def add_page(request, category_name_url):
                   {'form': form,
                    'category_name_url': category_name_url,
                    'category_name': category_name,
-                   'cat_list': get_category_list()}
+                   'cat_list': get_category_list(request=request)}
                  )
 
 
@@ -150,12 +166,12 @@ def register(request):
                   {'user_form': user_form,
                    'profile_form': profile_form,
                    'registered': registered,
-                   'cat_list': get_category_list()}
+                   'cat_list': get_category_list(request=request)}
                  )
 
 
 def user_login(request):
-    cat_list = get_category_list()
+    cat_list = get_category_list(request=request)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -188,7 +204,7 @@ def user_logout(request):
 
 @login_required
 def profile(request):
-    cat_list = get_category_list()
+    cat_list = get_category_list(request=request)
     context = {'cat_list': cat_list}
     u = User.objects.get(username=request.user)
     try:
@@ -239,7 +255,10 @@ def suggest_category(request):
     if request.method == 'GET':
         contains = request.GET['suggestion']
 
-    cat_list = get_category_list(8, contains)
+    if contains:
+        cat_list = get_category_list(5, contains)
+    else:
+        cat_list = get_category_list(request=request)
 
     return render(request, 'rango/category_list.html', {'cat_list': cat_list })
 
@@ -271,7 +290,7 @@ def profile_update(request):
     return render(request, 'rango/profile_update.html',
                   {'user_form': user_form,
                    'profile_form': profile_form,
-                   'cat_list': get_category_list()}
+                   'cat_list': get_category_list(request=request)}
                  )
 
 
@@ -301,7 +320,7 @@ def change_password(request):
             return render(request, 'rango/message.html',
                           {'message_header': 'User: ' + user.username,
                            'message_body': 'Password changed successfully.',
-                           'cat_list': get_category_list()}
+                           'cat_list': get_category_list(request=request)}
                          )
         else:
             print user_form.errors
@@ -311,7 +330,7 @@ def change_password(request):
 
     return render(request, 'rango/change_password.html',
                   {'user_form': user_form,
-                   'cat_list': get_category_list()}
+                   'cat_list': get_category_list(request=request)}
                  )
 
 
@@ -330,7 +349,7 @@ def delete_user(request):
             return render(request, 'rango/message.html',
                           {'message_header': 'User: ' + user.username,
                            'message_body': 'Account deleted successfully.',
-                           'cat_list': get_category_list()}
+                           'cat_list': get_category_list(request=request)}
                          )
         else:
             print user_form.errors
@@ -340,7 +359,7 @@ def delete_user(request):
 
     return render(request, 'rango/delete_user.html',
                   {'user_form': user_form,
-                   'cat_list': get_category_list()}
+                   'cat_list': get_category_list(request=request)}
                  )
 
 
@@ -360,7 +379,7 @@ def delete_page(request, page_id):
                                'message_body': 'Requested page with ID: ' + \
                                                page_id + \
                                                ' not found for deletion',
-                               'cat_list': get_category_list()}
+                               'cat_list': get_category_list(request=request)}
                              )
 
     return redirect(url)
@@ -390,14 +409,14 @@ def edit_page(request, page_id):
                               {'message_header': 'Page not Found',
                                'message_body': 'Requested page with ID: ' + \
                                                page_id + ' not found for edit',
-                               'cat_list': get_category_list()}
+                               'cat_list': get_category_list(request=request)}
                              )
 
     return render(request, 'rango/edit_page.html',
                   {'form': page_form,
                    'page_id': page_id,
                    'category_name': category,
-                   'cat_list': get_category_list()}
+                   'cat_list': get_category_list(request=request)}
                  )
 
 
@@ -415,7 +434,7 @@ def delete_category(request, category_url):
                                'message_body': 'Requested category with URL: ' + \
                                                category_url + \
                                                ' not found for deletion',
-                               'cat_list': get_category_list()}
+                               'cat_list': get_category_list(request=request)}
                              )
 
     return redirect(url)
@@ -444,12 +463,12 @@ def edit_category(request, category_url):
                                'message_body': 'Requested category with URL: ' + \
                                                category_url + \
                                                ' not found for deletion',
-                               'cat_list': get_category_list()}
+                               'cat_list': get_category_list(request=request)}
                              )
 
     return render(request, 'rango/edit_category.html',
                   {'form': category_form,
                    'category_url': category_url,
                    'category_name': category,
-                   'cat_list': get_category_list()}
+                   'cat_list': get_category_list(request=request)}
                  )
