@@ -8,7 +8,6 @@ $(document).ready(function() {
             $('#like_count').html(data);
             $('#likes').hide();
         });
-
     });
 
     $('#suggestion').keyup(function(){
@@ -37,7 +36,7 @@ $(document).ready(function() {
         $('#url-name').html('<strong>' + name + '</strong>');
     });
 
-    $('.delete-item').on('click', function(e) {
+    $('.delete-item').on('click', function(e){
         e.preventDefault();
 
         var name = $(this).data('name');
@@ -50,5 +49,16 @@ $(document).ready(function() {
     $('.carousel').carousel({
         interval: 4000
     })
+
+    $('#cats').delegate('#cat_list_prev, #cat_list_next', 'click', function(e){
+        e.preventDefault();
+
+        var ref = $(this).attr('href');
+        ref = ref.substring(10, ref.length);
+        var query = $('#suggestion').val();
+        $.get('/rango/suggest_category/', {cat_page: ref, suggestion: query}, function(data){
+            $('#cats').html(data);
+        });
+    });
 
 });

@@ -32,20 +32,14 @@ def get_category_list(max_results=0, contains='', request=''):
         if len(cat_list_pages) > max_results:
             cat_list_pages = cat_list_pages[:max_results]
 
-    if contains:
-        cat_list = cat_list_pages
-    else:
-        if request:
-            paginator = Paginator(cat_list_pages, 5)
-            page_idx = request.GET.get('cat_page')
-            try:
-                cat_list = paginator.page(page_idx)
-            except PageNotAnInteger:
-                cat_list = paginator.page(1)
-            except EmptyPage:
-                cat_list = paginator.page(paginator.num_pages)
-        else:
-            cat_list = cat_list_pages
+    paginator = Paginator(cat_list_pages, 5)
+    page_idx = request.GET.get('cat_page')
+    try:
+        cat_list = paginator.page(page_idx)
+    except PageNotAnInteger:
+        cat_list = paginator.page(1)
+    except EmptyPage:
+        cat_list = paginator.page(paginator.num_pages)
 
     for cat in cat_list:
         cat.url = encode_url(cat.name)
@@ -254,12 +248,10 @@ def suggest_category(request):
     contains = ''
     if request.method == 'GET':
         contains = request.GET['suggestion']
-
-    if contains:
-        cat_list = get_category_list(5, contains)
-    else:
-        cat_list = get_category_list(request=request)
-
+    #if contains:
+    #    cat_list = get_category_list(5, contains)
+    #else:
+        cat_list = get_category_list(contains=contains, request=request)
     return render(request, 'rango/category_list.html', {'cat_list': cat_list })
 
 
