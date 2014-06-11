@@ -24,9 +24,11 @@ def get_category_list(max_results=0, contains='', request=''):
     cat_list_pages = []
     if contains:
         cat_list_pages = Category.objects.filter(
-            name__contains=contains).order_by('name')
+            name__contains=contains).extra(
+            select={'lower_name': 'lower(name)'}).order_by('lower_name')
     else:
-        cat_list_pages = Category.objects.all().order_by('name')
+        cat_list_pages = Category.objects.all().extra(
+            select={'lower_name': 'lower(name)'}).order_by('lower_name')
 
     if max_results > 0:
         if len(cat_list_pages) > max_results:
