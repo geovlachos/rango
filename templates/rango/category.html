@@ -66,9 +66,9 @@
 
     {% if user.is_authenticated %}
         <p><br />
-        <a href="/rango/category/{{category_name_url}}/add_page/" class="btn btn-primary my-tooltip" role="button" data-toggle="tooltip" data-placement="right" title="add"><i class="icon-plus icon-white"></i>&nbsp;&nbsp;Page</a>
-        <a href="/rango/category/{{category_name_url}}/edit/" class="btn btn-warning my-tooltip" role="button" data-toggle="tooltip" data-placement="right" title="edit"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;Category</i></a>
-        <a href="/rango/category/{{category_name_url}}/delete/" class="btn btn-danger delete-item my-tooltip" data-name="Category: {{category_name}}" role="button" data-toggle="tooltip" data-placement="right" title="delete"><i class="icon-trash icon-white"></i>&nbsp;&nbsp;Category</i></a>
+        <a href="/rango/category/{{category_name_url}}/add_page/" class="btn btn-primary my-tooltip my-spacer" role="button" data-toggle="tooltip" data-placement="right" title="add"><i class="icon-plus icon-white"></i>&nbsp;&nbsp;Page</a>
+        <a href="/rango/category/{{category_name_url}}/edit/" class="btn btn-warning my-tooltip my-spacer" role="button" data-toggle="tooltip" data-placement="right" title="edit"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;Category</i></a>
+        <a href="/rango/category/{{category_name_url}}/delete/" class="btn btn-danger delete-item my-tooltip my-spacer" data-name="Category: {{category_name}}" role="button" data-toggle="tooltip" data-placement="right" title="delete"><i class="icon-trash icon-white"></i>&nbsp;&nbsp;Category</i></a>
         </p>
     {% endif %}
 </div>
