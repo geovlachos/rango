@@ -1,5 +1,6 @@
 {% extends 'rango/base.html' %}
 {% load static %}
+{% load tags %}
 {% block title %}Register{% endblock %}
 {% block body_block %}
 <div class="hero-unit hidden-phone">
@@ -45,26 +46,29 @@
                                 {% elif field.name == 'last_name' %}
                                     <span class="add-on"><i class="icon-th-large"></i></span>
                                 {% endif %}
-                                {{ field }}
+                                <input class="span12" id="id_{{ field.name }}" name="{{ field.name }}" type="{{ field|field_type }}" value="{% if field.value %}{{ field.value }}{% endif  %}" />
                             </div>
                         </div>
                     </div>
                     {% endfor %}
 
                     {% for field in profile_form.visible_fields %}
-                    <div class="control-group">
-                        <label class="control-label" for="id_{{ field.name }}">
-                            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span> {{ field.help_text }}
-                        </label>
-                        <div class="controls">
-                            <div class="input-prepend">
-                                {% if field.name == 'website' %}
-                                    <span class="add-on"><i class="icon-globe"></i></span>
-                                {% endif %}
-                                {{ field }}
+                        {% if field.name == 'website' %}
+                            <div class="control-group">
+                                <label class="control-label" for="id_{{ field.name }}">
+                                    <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span> {{ field.help_text }}
+                                </label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-globe"></i></span>
+                                        <input class="span12" id="id_{{ field.name }}" name="{{ field.name }}" type="{{ field|field_type }}" value="{% if field.value %}{{ field.value }}{% endif  %}" />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        {% else %}
+                            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span> {{ field.help_text }}
+                            <input class="span12" id="id_{{ field.name }}" name="{{ field.name }}" type="{{ field|field_type }}" />
+                        {% endif %}
                     {% endfor %}
 
                     <p><br /><input class="btn btn-primary" type="submit" name="submit" value="Register"/><p>
