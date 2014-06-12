@@ -1,44 +1,67 @@
 {% extends 'rango/base.html' %}
+{% load static %}
 {% block title %}Login{% endblock %}
 {% block body_block %}
-<div class="hero-unit">
-    <h1>Login to Rango</h1>
-</div>
-<div class="row-fluid">
-    <div class="well well-small">
-    <form class="form-signin offset1" id="login_form" method="post" action="/rango/login/">
-        <h3 class="form-signin-heading">Please sign in</h3>
-        {% csrf_token %}
-
-        <input type="hidden" name="next" value="{{ request.GET.next }}" />
-
-        {% if bad_details %}
-        <p><span class="errorlist"><strong>Your username and/or password were incorrect!</strong></span></p>
-        {% elif disabled_account %}
-        <p><span class="errorlist"><strong>Your Rango account is currently disabled; we can't log you in!</strong></span></p>
-        {% endif %}
-        Username:
-        <div class="controls">
-            <div class="input-prepend">
-                <span class="add-on"><i class="icon-user"></i></span>
-                <input type="text" class="input-block-level" placeholder="Username" name="username" value="" />
-            </div>
-        </div>
-        Password:
-        <div class="controls">
-            <div class="input-prepend">
-                <span class="add-on"><i class="icon-chevron-right"></i></span>
-                <input type="password" class="input-block-level" placeholder="Password" name="password" value="" />
-            </div>
-        </div>
-        <p><br /><button class="btn btn-primary" type="submit">Sign in</button></p>
-    </form>
+<div class="hero-unit hidden-phone">
+    <div class="page-header">
+        <h1>Login <small>to Rango</small></h1>
     </div>
 </div>
-    <div class="alert">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4>Information!</h4>
-        <p>This is a demo site. Login with username <strong>test</strong> and password <strong>test</strong> or Register your own account to see the full functionality.</p>
-        <p>If you Register you will have more options available to control your account.</p>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3"></div>
+        <div class="well well-small well-white span6">
+            <div class="span2" align="center">
+                <br class="hidden-phone" />
+                <img src="{% static "img/lock.png" %}" alt="" />
+            </div>
+            <div class="span10">
+                <form id="login_form" method="post" action="/rango/login/">
+                    <h3>Please sign in</h3>
+                    {% csrf_token %}
+
+                    <input type="hidden" name="next" value="{{ request.GET.next }}" />
+
+                    {% if bad_details %}
+                    <p><span class="errorlist"><strong>Your username and/or password were incorrect!</strong></span></p>
+                    {% elif disabled_account %}
+                    <p><span class="errorlist"><strong>Your Rango account is currently disabled; we can't log you in!</strong></span></p>
+                    {% endif %}
+
+                    <div class="control-group">
+                        <label class="control-label" for="inputUsername">Username</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-user"></i></span>
+                                <input type="text" class="span12" id="inputUsername" placeholder="Username" name="username" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inpuPass">Password</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-chevron-right"></i></span>
+                                <input type="password" class="span12" id="inputPass"placeholder="Password" name="password" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <p><br /><button class="btn btn-primary" type="submit">Sign in</button></p>
+                </form>
+            </div>
+        </div>
+        <div class="span3"></div>
     </div>
+    <div class="row-fluid">
+        <div class="span12"></div>
+    </div>
+    <div class="row-fluid">
+        <div class="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Information!</h4>
+            <p>This is a demo site. Login with username <strong>test</strong> and password <strong>test</strong> or Register your own account to see the full functionality.</p>
+            <p>If you Register you will have more options available to control your account.</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
