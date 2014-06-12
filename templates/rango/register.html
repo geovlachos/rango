@@ -1,61 +1,78 @@
 {% extends 'rango/base.html' %}
+{% load static %}
 {% block title %}Register{% endblock %}
 {% block body_block %}
-<div class="hero-unit">
-    <h1>Register with Rango</h1>
+<div class="hero-unit hidden-phone">
+    <div class="page-header">
+        <h1>Register <small>with Rango</small></h1>
+    </div>
 </div>
-<div class="row-fluid">
-    <div class="well well-small">
-        {% if registered %}
-        <p>Thank you for registering.</p>
-
-        <p><a href="/rango/login/">Login</a> when you are ready to rango.</p>
-        {% else %}
-        <form class="form-signin offset1" id="user_form" method="post" action="/rango/register/"
-              enctype="multipart/form-data">
-            {% csrf_token %}
-            <h3 class="form-signin-heading">Sign up Here</h3>
-            <!-- Display each form here -->
-
-            {% for field in user_form.visible_fields %}
-            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span>
-            {{ field.help_text }}<br />
-            <div class="controls">
-                <div class="input-prepend">
-                    {% if field.name == 'username' %}
-                        <span class="add-on"><i class="icon-user"></i></span>
-                    {% elif field.name == 'password' or field.name == 'retype_password' %}
-                        <span class="add-on"><i class="icon-chevron-right"></i></span>
-                    {% elif field.name == 'email' or field.name == 'retype_email' %}
-                        <span class="add-on"><i class="icon-envelope"></i></span>
-                    {% elif field.name == 'first_name' %}
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    {% elif field.name == 'last_name' %}
-                        <span class="add-on"><i class="icon-th-large"></i></span>
-                    {% endif %}
-                    {{ field }}<br />
-                </div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3"></div>
+        <div class="well well-small well-white span6">
+            <div class="span2" align="center">
+                <br class="hidden-phone" />
+                <img src="{% static "img/profile-list.png" %}" alt="" />
             </div>
-            {% endfor %}
+            <div class="span10">
+                {% if registered %}
+                <div align="center">
+                    <h3>Thank you for registering.</h3>
 
-            {% for field in profile_form.visible_fields %}
-            <span class="errorlist">{{ field.errors.as_text }}</span>
-            {{ field.help_text }}<br />
-            <div class="controls">
-                <div class="input-prepend">
-                    {% if field.name == 'website' %}
-                        <span class="add-on"><i class="icon-globe"></i></span>
-                    {% endif %}
-                    {{ field }}<br />
+                    <p><a href="/rango/login/">Login</a> when you are ready to rango.</p>
                 </div>
-            </div>
-            {% endfor %}
+                {% else %}
+                <form id="user_form" method="post" action="/rango/register/" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h3>Sign up Here</h3>
 
-            <br />
-            <!-- Provide a button to click to submit the form. -->
-            <input class="btn btn-primary" type="submit" name="submit" value="Register"/>
-        </form>
-        {% endif %}
+                    {% for field in user_form.visible_fields %}
+                    <div class="control-group">
+                        <label class="control-label" for="id_{{ field.name }}">
+                            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span> {{ field.help_text }}
+                        </label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                {% if field.name == 'username' %}
+                                    <span class="add-on"><i class="icon-user"></i></span>
+                                {% elif field.name == 'password' or field.name == 'retype_password' %}
+                                    <span class="add-on"><i class="icon-chevron-right"></i></span>
+                                {% elif field.name == 'email' or field.name == 'retype_email' %}
+                                    <span class="add-on"><i class="icon-envelope"></i></span>
+                                {% elif field.name == 'first_name' %}
+                                    <span class="add-on"><i class="icon-th"></i></span>
+                                {% elif field.name == 'last_name' %}
+                                    <span class="add-on"><i class="icon-th-large"></i></span>
+                                {% endif %}
+                                {{ field }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% for field in profile_form.visible_fields %}
+                    <div class="control-group">
+                        <label class="control-label" for="id_{{ field.name }}">
+                            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span> {{ field.help_text }}
+                        </label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                {% if field.name == 'website' %}
+                                    <span class="add-on"><i class="icon-globe"></i></span>
+                                {% endif %}
+                                {{ field }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <p><br /><input class="btn btn-primary" type="submit" name="submit" value="Register"/><p>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        <div class="span3"></div>
     </div>
 </div>
 {% endblock %}
