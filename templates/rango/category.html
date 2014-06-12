@@ -40,7 +40,7 @@
                     <a href="/rango/page/{{page.id}}/delete/" class="delete-item my-tooltip" data-name="Page: {{page.title}}" data-toggle="tooltip" title="delete"><i class="icon-trash"></i></a>
                 {% endif %}
                 </span>
-            </tr></td>
+            </td></tr>
             {% endfor %}
         </tbody>
         </table>
@@ -52,7 +52,7 @@
                 {% else %}
                     <li class="previous disabled"><a href="#">Prev</a></li>
                 {% endif %}
-                <span class="muted">Page {{ pages.number }} of {{ pages.paginator.num_pages }}</span>
+                <li class="muted">Page {{ pages.number }} of {{ pages.paginator.num_pages }}</li>
                 {% if pages.has_next %}
                     <li class="next"><a href="?page={{ pages.next_page_number }}">Next</a></li>
                 {% else %}
