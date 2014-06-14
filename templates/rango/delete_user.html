@@ -3,25 +3,26 @@
 {% block body_block %}
 <div class="hero-unit">
     <h1>Delete user account</h1>
-    <br />
-
-    <div class="container">
+</div>
+<div class="row-fluid progress-danger progress-striped">
+    <div class="well well-small well-white bar">
         {% if not user.is_staff and not user.is_superuser %}
-        <form class="form-signin span8" id="delete_user_form" method="post" action="/rango/profile/delete/"
+        <form class="form-signin offset1" id="delete_user_form" method="post" action="/rango/profile/delete/"
               enctype="multipart/form-data">
             {% csrf_token %}
-            <h2 class="form-signin-heading">user '{{ user.username }}'</h2>
+            <br />
+            <h2>user '{{ user.username }}'</h2>
             <!-- Display each form here -->
  
             {% for field in user_form.visible_fields %}
-            <span class="errorlist" id="errorlist_{{ field.name }}">{{ field.errors.as_text }}</span>
+            <span class="errorlist" id="errorlist_{{ field.name }}" style="color: white">{{ field.errors.as_text }}</span>
             {{ field.help_text }}<br />
             {{ field }}<br />
             {% endfor %}
 
             <br />
             <!-- Provide a button to click to submit the form. -->
-            <input class="btn btn-danger" type="submit" name="submit" value="Delete Account"/>
+            <button class="btn btn-danger" type="submit" name="submit"><i class="icon-trash icon-white"></i>&nbsp;Delete Account</button>
         </form>
         {% else %}
             <p>
