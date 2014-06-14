@@ -5,29 +5,33 @@
     <h1> Profile <h1>
 </div>
 <div class="row-fluid">
-    <div class="well well-small">
+    <div class="well well-small well-white">
     <div class="offset1">
     <h2>{{ user.username }}</h2>
+    <table>
+    <tbody>
     {% if user %}
-        <p>
-        <strong>Email:</strong> {{ user.email }}<br />
-        <strong>First name:</strong> {{ user.first_name }}<br />
-        <strong>Last name:</strong> {{ user.last_name }}</br>
-        <strong>Date joined:</strong> {{ user.date_joined }}
-        </p>
+        <tr><td><strong>Email:</strong></td><td>{{ user.email }}</td></tr>
+        <tr><td><strong>First name:</strong></td><td>{{ user.first_name }}</td></tr>
+        <tr><td><strong>Last name:</strong></td><td>{{ user.last_name }}</td></tr>
+        <tr><td><strong>Date joined:</strong></td><td>{{ user.date_joined }}</td></tr>
     {% endif %}
 
     {% if userprofile %}
-        <p><strong>Website:</strong> <a href="{{ userprofile.website }}" target="_blank">{{ userprofile.website }}</a></p>
+        <tr><td><strong>Website:</strong></td><td><a href="{{ userprofile.website }}" target="_blank">{{ userprofile.website }}</a></td></tr>
         {% if userprofile.picture %}
-            <p>
-            <strong>Profile picture:</strong><br />
-            <img src="{{ userprofile.picture.url }}" class="img-polaroid" />
-            </p>
+            <tr style="border-bottom: 1px solid #000;"><td>&nbsp;</td><td></td></tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+            <td style="vertical-align: top;"><strong>Profile picture&nbsp;</strong></td>
+            <td><img src="{{ userprofile.picture.url }}" class="img-polaroid" style="height: 180px; width: 180px" /></td>
+            </tr>
         {% endif %}
     {% else %}
-        <p><strong>No user profile found.</strong></p>
+        <tr><strong>No user profile found.</strong></tr>
     {% endif %}
+    </tbody>
+    </table>
 
     <p><br />
         <a href="/rango/profile/update/" class="btn btn-primary my-spacer" role="button">Update profile</a>
