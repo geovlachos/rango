@@ -11,3 +11,9 @@
           font-size: 18px;
         }
 }
+
+@media (min-width: 768px) and (max-width: 979px) {
+        .min-box-size {
+            min-width: 320px;
+        }
+}
