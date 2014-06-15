@@ -41,7 +41,7 @@
             <tr><td>
                 <a href="/rango/category/{{ category.url }}">{{ category.name }}</a>
                 <span class="pull-right"><span class="badge">{{ category.likes }}</span>
-                {% if category.likes > 1 %}
+                {% if category.likes > 1 or category.likes == 0 %}
                     likes
                 {% elif category.likes == 1 %}
                     like
@@ -67,7 +67,7 @@
                     <a href="/rango/goto/?page_id={{page.id}}" target="_blank">{{ page.title }}</a>
                     - {{ page.category }}
                     <span class="pull-right"><span class="badge">{{ page.views }}</span>
-                    {% if page.views > 1 %}
+                    {% if page.views > 1 or page.views == 0 %}
                        views
                     {% elif page.views == 1 %}
                         view
