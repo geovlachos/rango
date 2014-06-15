@@ -3,9 +3,11 @@
 {% block body_block %}
 <div class="hero-unit">
     <h2>Edit Category '{{ category_name }}'</h2>
-    <br/>
-    <div class="container">
-        <form class="span6" id="edit_category_form" method="post" action="/rango/category/{{ category_url }}/edit/">
+</div>
+<div class="row-fluid">
+    <div class="well well-small well-white">
+        <br />
+        <form class="offset1" id="edit_category_form" method="post" action="/rango/category/{{ category_url }}/edit/">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
             {{ hidden }}

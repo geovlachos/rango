@@ -2,10 +2,12 @@
 {% block title %}Edit page{% endblock %}
 {% block body_block %}
 <div class="hero-unit">
-    <h2>Edit page in '{{ category_name }}' category</h2>
-    <br />
-    <div class="container">
-        <form class ="span6" id="edit_page_form" method="post" action="/rango/page/{{ page_id }}/edit/">
+    <h2>Edit page</h2>
+</div>
+<div class="row-fluid">
+    <div class="well well-small well-white">
+        <br />
+        <form class ="offset1" id="edit_page_form" method="post" action="/rango/page/{{ page_id }}/edit/">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
             {{ hidden }}
@@ -18,7 +20,7 @@
             {% endfor %}
 
             <br />
-            <button class="btn btn-danger" type="submit" name="submit">Update Page</button>
+            <button class="btn btn-danger" type="submit" name="submit"><i class="icon-refresh icon-white"></i>&nbsp;Update Page</button>
         </form>
     </div>
 </div>

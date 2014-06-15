@@ -6,14 +6,14 @@
 {% block title %}Profile update{% endblock %}
 {% block body_block %}
 <div class="hero-unit">
-    <h1>Profile update</h1> <br />
-
-    <div class="container">
-        <form class="form-signin span8" id="profile_update" method="post" action="/rango/profile/update/"
+    <h1>Profile update</h1>
+</div>
+<div class="row-fluid">
+    <div class="well well-small well-white">
+        <form class="offset1" id="profile_update" method="post" action="/rango/profile/update/"
               enctype="multipart/form-data">
             {% csrf_token %}
-            <h2 class="form-signin-heading">'{{ user.username }}' update your info here</h2>
-            <!-- Display each form here -->
+            <h3>'{{ user.username }}' update your info here</h3>
 
             {% for field in user_form.visible_fields %}
             {% if field.errors %}
@@ -32,8 +32,7 @@
             {% endfor %}
 
             <br />
-            <!-- Provide a button to click to submit the form. -->
-            <input class="btn btn-primary" type="submit" name="submit" value="Update"/>
+            <button class="btn btn-primary" type="submit" name="submit"><i class="icon-refresh icon-white"></i>&nbsp;Update</button>
         </form>
     </div>
 </div>

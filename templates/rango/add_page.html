@@ -2,10 +2,12 @@
 {% block title %}Add page{% endblock %}
 {% block body_block %}
 <div class="hero-unit">
-    <h2>Add page to category '{{ category_name }}'</h2>
-    <br />
-    <div class="container">
-        <form class ="span6" id="page_form" method="post" action="/rango/category/{{ category_name_url }}/add_page/">
+    <h2>Add page to '{{ category_name }}'</h2>
+</div>
+<div class="row-fluid">
+    <div class="well well-small well-white">
+        <br />
+        <form class ="offset1" id="page_form" method="post" action="/rango/category/{{ category_name_url }}/add_page/">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
             {{ hidden }}
